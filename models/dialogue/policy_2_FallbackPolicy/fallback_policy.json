@@ -1,0 +1,5 @@
+{
+  "core_threshold": 0.2,
+  "nlu_threshold": 0.1,
+  "fallback_action_name": "utter_unclear"
+}
