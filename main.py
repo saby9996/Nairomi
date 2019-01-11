@@ -1,76 +1,127 @@
-from io import BytesIO
-import base64
-import matplotlib
+## Basic Imports
 import pandas as pd
-import pickle
 import numpy as np
-import scipy as sp
-import math
-import re
-import os
+import scipy
+import tensorflow as tf
 import sklearn
-import datetime
-from sklearn import model_selection, svm
-from sklearn.cluster import KMeans
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn import metrics
-from sklearn.metrics import classification_report, average_precision_score, mean_squared_error
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import precision_recall_curve
-from sklearn.metrics import accuracy_score
-from sklearn.linear_model import LogisticRegression
-from sklearn.linear_model import LinearRegression
-from sklearn.multiclass import OneVsRestClassifier
-from sklearn.neural_network import MLPClassifier
-from sklearn.preprocessing import label_binarize
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.naive_bayes import GaussianNB
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.svm import SVC
-from sklearn.metrics import r2_score
-from sklearn.ensemble import AdaBoostRegressor
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.ensemble import VotingClassifier
-from sklearn.neural_network import MLPRegressor
-from sklearn.model_selection import StratifiedKFold
-from sklearn.model_selection import train_test_split
-from sklearn import linear_model
-from sklearn.metrics import mean_absolute_error
-from sklearn.metrics import roc_curve, roc_auc_score
-import matplotlib.gridspec as gridspec
-import itertools
-import time
+import warnings
+warnings.filterwarnings("ignore")
+import simplejson as json
+from IPython.core.display import Image, display
 
-from scipy.io import loadmat
+#Imports For Speech to Text Conversion
+import speech_recognition as sr
+#Inports For Text To Speech
+import pyttsx3
 
-#For Seaborn
-import seaborn as sns
-from IPython import get_ipython
-get_ipython().run_line_magic('matplotlib', 'inline')
-from matplotlib.pylab import rcParams
-rcParams['figure.figsize'] = 30,10
-import matplotlib.pyplot as plt
+#RASA Import
+import rasa_nlu
+import rasa_core
+import spacy
+from rasa_nlu.training_data import load_data
+from rasa_nlu.config import RasaNLUModelConfig
+from rasa_nlu.model import Trainer
+from rasa_nlu import config
+from rasa_core.actions import Action
+from rasa_nlu.evaluate import run_evaluation
+from rasa_core.events import SlotSet
+from rasa_core.policies import FallbackPolicy, KerasPolicy, MemoizationPolicy
+from rasa_core.agent import Agent
 
-#For Arima
-from statsmodels.tsa.stattools import adfuller
-from statsmodels.tsa.seasonal import seasonal_decompose
-from statsmodels.tsa.stattools import acf, pacf
-from statsmodels.tsa.arima_model import ARIMA
 
-#For NLP
-import nltk
-from nltk.corpus import stopwords
-stop_words = stopwords.words('english')
-import re
-import string
-from nltk.stem.wordnet import WordNetLemmatizer
-from sklearn.feature_extraction.text import TfidfVectorizer,TfidfTransformer
+import requests
 
-#Dask Framework
-import dask.dataframe as dd
+#Capturing Audio for Text
+def audio_input():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        r.adjust_for_ambient_noise(source, duration=0.1)
+        audio = r.listen(source)
+    text=r.recognize_google(audio)
+    return text
 
-#For View
-pd.set_option('display.max_columns', 500)
-pd.set_option('display.max_rows', 500)
+#Rendering Audio for Output From Text
+def audio_output(text):
+    engine = pyttsx3.init()
+    engine.setProperty('voice', voice.id[1])
+    engine.setProperty('rate', 150)
+    engine.say(text)
+    engine.runAndWait()
+
+#Training the Model
+training_data = load_data("nlu.md")
+trainer = Trainer(config.load("config.yml"))
+interpreter = trainer.train(training_data)
+model_directory = trainer.persist("./models/nlu", fixed_model_name="current")
+
+#Evaluate NLU Model on Random Text
+def pprint(o):
+    print(json.dumps(o, indent=2))
+pprint(interpreter.parse("I am very sad. Could you send me a cat picture? "))
+
+#Evaluating on Test Data
+run_evaluation("nlu.md", model_directory)
+
+
+class ApiAction(Action):
+    def name(self):
+        return "action_retrieve_image"
+
+    def run(self, dispatcher, tracker, domain):
+        group = tracker.get_slot('group')
+
+        r = requests.get('http://shibe.online/api/{}?count=1&urls=true&httpsUrls=true'.format(group))
+        response = r.content.decode()
+        response = response.replace('["', "")
+        response = response.replace('"]', "")
+
+        # display(Image(response[0], height=550, width=520))
+        dispatcher.utter_message("Here is something to cheer you up: {}".format(response))
+
+
+#Training Dialogue Model
+fallback = FallbackPolicy(fallback_action_name="utter_unclear", core_threshold=0.2,nlu_threshold=0.1)
+agent = Agent('domain.yml', policies=[MemoizationPolicy(), KerasPolicy(), fallback])
+# loading our neatly defined training dialogues
+training_data = agent.load_data('stories.md')
+agent.train(training_data,validation_split=0.0)
+agent.persist('models/dialogue')
+
+#Starting the Bot
+from rasa_core.agent import Agent
+agent = Agent.load('models/dialogue', interpreter=model_directory)
+
+#################################################Starting Nairomi Agent###############################################
+audio_output("Hi There !!! , This is Nairomi, How can I help You ?'")
+while True:
+    a = audio_input().capitalize()
+    print(a)
+    if a == 'Stop':
+        break
+    responses = agent.handle_message(a)
+    for response in responses:
+        print(response["text"])
+        audio_output(response["text"])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
