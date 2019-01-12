@@ -1,6 +1,7 @@
 # NAIROMI - **Voice Enabled Personal Assistant**
 
 **Motivation**: The project was basically developed or intiated to complete eliminate the loneliness of a person :tw-1f60b:. Nairomi is being trained in such a way that every time you have a conversation with the system it tends to generate an intrinsic feeling about your way of talking and also your character. The system that is being developed is based on the theorems suggested by **B.J. Fogg** in his book on *Persuasive Technology*.
+
 ![](https://pngimage.net/wp-content/uploads/2018/05/artificial-intelligence-png-1.png)
 
 **Technical Specifications**: The Background of the Complete Framework is:
