@@ -1,5 +1,6 @@
 {
   "rasa_nlu_data": {
+    "regex_features": [],
     "common_examples": [
       {
         "intent": "greet",
@@ -272,10 +273,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 46,
             "start": 42,
             "value": "birds",
-            "end": 46
+            "entity": "group"
           }
         ],
         "intent": "mood_unhappy",
@@ -284,10 +285,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 25,
             "start": 20,
             "value": "shibes",
-            "end": 25
+            "entity": "group"
           }
         ],
         "intent": "mood_unhappy",
@@ -296,10 +297,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 85,
             "start": 79,
             "value": "cats",
-            "end": 85
+            "entity": "group"
           }
         ],
         "intent": "mood_unhappy",
@@ -308,10 +309,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 35,
             "start": 30,
             "value": "shibes",
-            "end": 35
+            "entity": "group"
           }
         ],
         "intent": "mood_unhappy",
@@ -320,10 +321,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 27,
             "start": 24,
             "value": "cats",
-            "end": 27
+            "entity": "group"
           }
         ],
         "intent": "mood_unhappy",
@@ -332,10 +333,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 34,
             "start": 29,
             "value": "shibes",
-            "end": 34
+            "entity": "group"
           }
         ],
         "intent": "mood_unhappy",
@@ -344,10 +345,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 26,
             "start": 22,
             "value": "birds",
-            "end": 26
+            "entity": "group"
           }
         ],
         "intent": "mood_unhappy",
@@ -356,10 +357,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 48,
             "start": 43,
             "value": "shibes",
-            "end": 48
+            "entity": "group"
           }
         ],
         "intent": "mood_unhappy",
@@ -368,10 +369,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 5,
             "start": 2,
             "value": "shibes",
-            "end": 5
+            "entity": "group"
           }
         ],
         "intent": "inform",
@@ -380,10 +381,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 3,
             "start": 0,
             "value": "shibes",
-            "end": 3
+            "entity": "group"
           }
         ],
         "intent": "inform",
@@ -392,10 +393,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 4,
             "start": 0,
             "value": "birds",
-            "end": 4
+            "entity": "group"
           }
         ],
         "intent": "inform",
@@ -404,10 +405,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 5,
             "start": 2,
             "value": "cats",
-            "end": 5
+            "entity": "group"
           }
         ],
         "intent": "inform",
@@ -416,10 +417,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 3,
             "start": 0,
             "value": "cats",
-            "end": 3
+            "entity": "group"
           }
         ],
         "intent": "inform",
@@ -428,10 +429,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 6,
             "start": 2,
             "value": "birds",
-            "end": 6
+            "entity": "group"
           }
         ],
         "intent": "inform",
@@ -440,10 +441,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 8,
             "start": 5,
             "value": "shibes",
-            "end": 8
+            "entity": "group"
           }
         ],
         "intent": "inform",
@@ -452,10 +453,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 8,
             "start": 5,
             "value": "cats",
-            "end": 8
+            "entity": "group"
           }
         ],
         "intent": "inform",
@@ -464,10 +465,10 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 6,
             "start": 2,
             "value": "birds",
-            "end": 6
+            "entity": "group"
           }
         ],
         "intent": "inform",
@@ -476,25 +477,17 @@
       {
         "entities": [
           {
-            "entity": "group",
+            "end": 5,
             "start": 2,
             "value": "shibes",
-            "end": 5
+            "entity": "group"
           }
         ],
         "intent": "inform",
         "text": "a dog, please"
       }
     ],
-    "regex_features": [],
-    "lookup_tables": [],
     "entity_synonyms": [
-      {
-        "synonyms": [
-          "bird"
-        ],
-        "value": "birds"
-      },
       {
         "synonyms": [
           "kitten",
@@ -504,12 +497,19 @@
       },
       {
         "synonyms": [
-          "doggo",
           "dog",
-          "puppy"
+          "puppy",
+          "doggo"
         ],
         "value": "shibes"
+      },
+      {
+        "synonyms": [
+          "bird"
+        ],
+        "value": "birds"
       }
-    ]
+    ],
+    "lookup_tables": []
   }
 }

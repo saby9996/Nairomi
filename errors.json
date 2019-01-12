@@ -1,12 +1,12 @@
 {
     "intent_errors": [
         {
+            "intent": "goodbye",
             "intent_prediction": {
-                "name": "greet",
-                "confidence": 0.5370931998814029
+                "confidence": 0.5685527805866694,
+                "name": "greet"
             },
-            "text": "good afternoon",
-            "intent": "goodbye"
+            "text": "good afternoon"
         }
     ]
 }
